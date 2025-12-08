@@ -7,7 +7,7 @@ export default function App() {
   const [terminalText, setTerminalText] = useState('');
   const [showCursor, setShowCursor] = useState(true);
   const [ipAddress, setIpAddress] = useState('Fetching...');
-  const [locationData, setLocationData] = useState({ city: 'Unknown', country: 'Unknown' });
+  const [locationData, setLocationData] = useState({ city: 'logged', country: 'logged' });
   const [extractionProgress, setExtractionProgress] = useState(0);
 
   // Fetch real IP address and location
@@ -18,18 +18,18 @@ export default function App() {
         const response = await fetch('https://ipapi.co/json/');
         const data = await response.json();
         
-        setIpAddress(data.ip || 'Unknown');
+        setIpAddress(data.ip || 'logged');
         setLocationData({
-          city: data.city || 'Unknown',
-          country: data.country_name || 'Unknown',
-          region: data.region || 'Unknown'
+          city: data.city || 'logged',
+          country: data.country_name || 'logged',
+          region: data.region || 'logged'
         });
       } catch (error) {
         // Fallback to just IP if location API fails
         try {
           const ipResponse = await fetch('https://api.ipify.org?format=json');
           const ipData = await ipResponse.json();
-          setIpAddress(ipData.ip || 'Unknown');
+          setIpAddress(ipData.ip || 'logged');
         } catch {
           // Ultimate fallback to random IP
           setIpAddress(`${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}`);
