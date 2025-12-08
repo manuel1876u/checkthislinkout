@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 export default function App() {
   const [screen, setScreen] = useState('loading');
   const [percentage, setPercentage] = useState(0);
-  const [loadingMessage, setLoadingMessage] = useState('Initializing connection...');
+  const [loadingMessage, setLoadingMessage] = useState('Initializing...');
   const [terminalText, setTerminalText] = useState('');
   const [showCursor, setShowCursor] = useState(true);
   const [ipAddress, setIpAddress] = useState('Fetching...');
@@ -60,9 +60,9 @@ export default function App() {
           }
           
           // Update loading messages based on percentage
-          if (prev === 30) setLoadingMessage('Accessing database...');
-          if (prev === 60) setLoadingMessage('Retrieving contacts...');
-          if (prev === 90) setLoadingMessage('Finalizing transfer...');
+          if (prev === 30) setLoadingMessage('Turning the next dramatic page...');
+          if (prev === 60) setLoadingMessage('Unfolding the tension between characters...');
+          if (prev === 90) setLoadingMessage('Polishing the final comic panel...');
           
           return prev + 1;
         });
