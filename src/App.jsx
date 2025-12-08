@@ -76,7 +76,7 @@ export default function App() {
     if (screen === 'thankyou') {
       const timer = setTimeout(() => {
         setScreen('breach');
-      }, 3000);
+      }, 1000);
       return () => clearTimeout(timer);
     }
   }, [screen]);
