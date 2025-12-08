@@ -55,7 +55,7 @@ export default function App() {
         setPercentage(prev => {
           if (prev >= 100) {
             clearInterval(interval);
-            setTimeout(() => setScreen('thankyou'), 500);
+            setTimeout(() => setScreen('thankyou'), 300);
             return 100;
           }
           
