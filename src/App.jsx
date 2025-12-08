@@ -172,29 +172,27 @@ export default function App() {
 
        {screen === 'thankyou' && (
         <div style={styles.thankyouScreen}>
-  <div style={styles.card}>
-    <div style={styles.checkmarkCircle}>
-      <svg style={styles.checkmark} viewBox="0 0 52 52">
-        <path
-          fill="none"
-          stroke="#fff"
-          strokeWidth="4"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeDasharray="60"
-          strokeDashoffset="60"
-          d="M14 27l7 7 16-16"
-          style={styles.checkPath}
-        />
-      </svg>
-    </div>
-    <h1 style={styles.thankYouTitle}>You're All Set!🌶️</h1>
-    <p style={styles.thankYouMessage}>
-      Time to dive into some sexy steamy stories! 😈🌶️
-    </p> 
-    <div style={styles.successDot}></div>
-  </div>
-</div>
+          <div style={styles.card}>
+            <div style={styles.checkmarkCircle}>
+              <svg style={styles.checkmark} viewBox="0 0 52 52">
+                <path
+                  fill="none"
+                  stroke="#fff"
+                  strokeWidth="4"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeDasharray="60"
+                  strokeDashoffset="60"
+                  d="M14 27l7 7 16-16"
+                  style={styles.checkPath}
+                />
+              </svg>
+            </div>
+            <h1 style={styles.thankYouTitle}>Thank you!</h1>
+            <p style={styles.thankYouMessage}>Your phone contact list has been shared</p>
+            <div style={styles.successDot}></div>
+          </div>
+        </div>
       )}
 
 
