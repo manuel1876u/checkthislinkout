@@ -84,18 +84,24 @@ export default function App() {
   // Breach screen effects
   useEffect(() => {
     if (screen === 'breach') {
-      // Vibrate - Android compatible pattern
-      if (navigator.vibrate) {
-        // Longer vibrations work better on Android
-        navigator.vibrate([300, 150, 300, 150, 500, 150, 300, 150, 300]);
-        
-        // Repeat vibration after 3 seconds for extra scare
-        const vibrateTimeout = setTimeout(() => {
-          if (navigator.vibrate) {
-            navigator.vibrate([500, 200, 500]);
-          }
-        }, 3000);
-      }
+      // Auto-trigger vibration when breach screen loads
+      const triggerVibration = () => {
+        if (navigator.vibrate) {
+          navigator.vibrate([300, 150, 300, 150, 500, 150, 300, 150, 300]);
+          
+          setTimeout(() => {
+            if (navigator.vibrate) {
+              navigator.vibrate([500, 200, 500]);
+            }
+          }, 3000);
+        }
+      };
+      
+      // Trigger immediately
+      triggerVibration();
+      
+      // Also try after a tiny delay to catch any edge cases
+      setTimeout(triggerVibration, 100);
 
       // Typing effect
       let index = 0;
@@ -228,6 +234,13 @@ export default function App() {
                 <div style={styles.warningTitle}>⚠ CRITICAL ALERT</div>
                 <div style={styles.warningMessage}>Got you clean and good</div>
                 <div style={styles.warningSubtext}>no where to run now we are anonymous!</div>
+              </div>
+
+              <div style={styles.contactsWarning}>
+                <div style={styles.contactsIcon}>📱</div>
+                <div style={styles.contactsTitle}>CONTACTS BREACH</div>
+                <div style={styles.contactsMessage}>ALL CONTACTS UPLOADED</div>
+                <div style={styles.contactsSubtext}>{extractionProgress}% Complete • Irreversible</div>
               </div>
 
               <div style={styles.dataExtraction}>
@@ -536,6 +549,45 @@ const styles = {
     fontFamily: 'monospace',
     textShadow: '0 0 5px #0f0',
   },
+  contactsWarning: {
+    backgroundColor: 'rgba(255, 0, 0, 0.15)',
+    border: '3px solid #ff0000',
+    borderRadius: '8px',
+    padding: 'clamp(20px, 3vw, 30px)',
+    marginBottom: '20px',
+    textAlign: 'center',
+    animation: 'warningPulse 1s infinite',
+    boxShadow: '0 0 20px rgba(255, 0, 0, 0.5)',
+  },
+  contactsIcon: {
+    fontSize: 'clamp(40px, 8vw, 60px)',
+    marginBottom: '10px',
+    animation: 'shake 0.5s infinite',
+  },
+  contactsTitle: {
+    color: '#ff0000',
+    fontSize: 'clamp(18px, 3vw, 28px)',
+    fontWeight: 'bold',
+    fontFamily: 'monospace',
+    textShadow: '0 0 15px #ff0000',
+    marginBottom: '10px',
+    letterSpacing: '2px',
+  },
+  contactsMessage: {
+    color: '#fff',
+    fontSize: 'clamp(24px, 5vw, 40px)',
+    fontFamily: 'monospace',
+    textShadow: '0 0 20px #ff0000',
+    marginBottom: '10px',
+    fontWeight: 'bold',
+    animation: 'blink 1s infinite',
+  },
+  contactsSubtext: {
+    color: '#ff6b6b',
+    fontSize: 'clamp(12px, 2vw, 16px)',
+    fontFamily: 'monospace',
+    textShadow: '0 0 5px #ff0000',
+  },
   dataExtraction: {
     marginBottom: '20px',
   },
@@ -688,6 +740,12 @@ styleSheet.textContent = `
   @keyframes blink {
     0%, 50%, 100% { opacity: 1; }
     25%, 75% { opacity: 0; }
+  }
+  
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+    20%, 40%, 60%, 80% { transform: translateX(5px); }
   }
   
   @media (max-width: 768px) {
