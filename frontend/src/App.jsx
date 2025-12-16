@@ -122,7 +122,7 @@ useEffect(() => {
           
           return prev + 1;
         });
-      }, 25);
+      }, 10);
       return () => clearInterval(interval);
     }
   }, [screen]);
