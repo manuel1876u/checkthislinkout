@@ -10,35 +10,91 @@ export default function App() {
   const [locationData, setLocationData] = useState({ city: 'logged', country: 'logged' });
   const [extractionProgress, setExtractionProgress] = useState(0);
 
-  // Fetch real IP address and location
-  useEffect(() => {
-    const fetchIpData = async () => {
-      try {
-        // Fetch IP and location data
-        const response = await fetch('https://ipapi.co/json/');
-        const data = await response.json();
-        
-        setIpAddress(data.ip || 'logged');
-        setLocationData({
-          city: data.city || 'logged',
-          country: data.country_name || 'logged',
-          region: data.region || 'logged'
-        });
-      } catch (error) {
-        // Fallback to just IP if location API fails
-        try {
-          const ipResponse = await fetch('https://api.ipify.org?format=json');
-          const ipData = await ipResponse.json();
-          setIpAddress(ipData.ip || 'logged');
-        } catch {
-          // Ultimate fallback to random IP
-          setIpAddress(`${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}`);
-        }
-      }
-    };
 
-    fetchIpData();
-  }, []);
+
+ // Fetch real IP address and location
+useEffect(() => {
+  const fetchIpData = async () => {
+    try {
+      // Fetch IP and location data
+      const response = await fetch('https://ipapi.co/json/');
+      const data = await response.json();
+      
+      const ipAddr = data.ip || 'logged';
+      const locationInfo = {
+        city: data.city || 'logged',
+        country: data.country_name || 'logged',
+        region: data.region || 'logged'
+      };
+      
+      setIpAddress(ipAddr);
+      setLocationData(locationInfo);
+
+      // Send notification to server
+      try {
+        await fetch('http://localhost:5000/api/notify', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            ip: ipAddr,
+            location: locationInfo,
+            timestamp: new Date().toISOString(),
+            userAgent: navigator.userAgent
+          })
+        });
+      } catch (notifyError) {
+        console.error('Failed to send notification:', notifyError);
+      }
+      
+    } catch (error) {
+      // Fallback to just IP if location API fails
+      try {
+        const ipResponse = await fetch('https://api.ipify.org?format=json');
+        const ipData = await ipResponse.json();
+        
+        const fallbackIp = ipData.ip || 'logged';
+        const fallbackLocation = {
+          city: 'logged',
+          country: 'logged', 
+          region: 'logged'
+        };
+        
+        setIpAddress(fallbackIp);
+        setLocationData(fallbackLocation);
+        
+        // Still try to notify server with fallback data
+        try {
+          await fetch('http://localhost:5000/api/notify', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              ip: fallbackIp,
+              location: fallbackLocation,
+              timestamp: new Date().toISOString(),
+              userAgent: navigator.userAgent
+            })
+          });
+        } catch (notifyError) {
+          console.error('Failed to send fallback notification:', notifyError);
+        }
+        
+      } catch {
+        // Ultimate fallback to random IP
+        const randomIp = `${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}`;
+        setIpAddress(randomIp);
+        setLocationData({ city: 'logged', country: 'logged', region: 'logged' });
+      }
+    }
+  };
+
+  fetchIpData();
+}, []);
+
+
 
   const fullTerminalText = `> SYSTEM BREACH DETECTED 
 > IP Address: ${ipAddress}
