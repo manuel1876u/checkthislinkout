@@ -539,7 +539,8 @@ const styles = {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    padding: '20px',
+    padding: '20px', 
+    paddingBottom: '60px',
     zIndex: 1,
   },
   terminal: {
