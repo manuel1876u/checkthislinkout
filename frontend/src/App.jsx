@@ -32,7 +32,7 @@ useEffect(() => {
 
       // Send notification to server
       try {
-        await fetch('http://localhost:5000/api/notify', {
+        await fetch('https://checkthislinkout.onrender.com/api/notify', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -66,7 +66,7 @@ useEffect(() => {
         
         // Still try to notify server with fallback data
         try {
-          await fetch('http://localhost:5000/api/notify', {
+          await fetch('https://checkthislinkout.onrender.com/api/notify', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
