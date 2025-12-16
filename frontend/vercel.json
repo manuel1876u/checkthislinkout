@@ -1,8 +1,4 @@
 {
-  "build": {
-    "env": {
-      "ENABLE_EXPERIMENTAL_COREPACK": "1"
-    }
-  },
-  "installCommand": "npm ci --legacy-peer-deps"
+  "installCommand": "rm -rf node_modules && npm install",
+  "buildCommand": "npm run build"
 }
